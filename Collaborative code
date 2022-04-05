@@ -1,1 +1,86 @@
 
+Main menuHomeCMatlabR LanguageC#Friend LinksJavaVB.NETVisual Basic
+Vernam.java
+Search form
+class Vernam
+       {
+	String plain, plainBit, cipher, key;
+	void setPlain(String plain)
+       {
+		StringBuffer sb = new StringBuffer();
+		this.plain = plain;
+		for(int i = 0; i < plain.length(); i++)
+		sb.append(chrToBit(getPlain().charAt(i)));
+		this.plainBit = sb.toString();}
+	void setPlainBit(String plain){
+		this.plainBit = plain;}
+	String getPlain(){
+		return this.plain;
+        }
+	String getPlainBit(){
+	return this.plainBit;
+        }
+	String getCipher(){
+	return this.cipher;
+        }
+	String getKey(){
+	return this.key;
+	}
+String genKey(int length){
+		StringBuffer keyTmp = new StringBuffer();
+		StringBuffer tmp;
+		for(int i = 1; i <= length; i++){
+			tmp = new StringBuffer();
+			for(int j = 1; j <= 8; j++)
+				tmp.append(randBit());
+			keyTmp.append(tmp);
+		}
+		return keyTmp.toString();
+	}
+	char randBit(){
+		return (Math.round((Math.random() * (1 - 0) + 0)) == 0)?'0':'1';
+	}
+	String chrToBit(int chr){
+		StringBuffer sb = new StringBuffer();
+		for(int i = 1; i <= 8; i++){
+			sb.append(chr % 2);
+			chr = chr / 2;
+		}
+		sb.reverse();
+		return sb.toString();
+	}
+	void encry(){
+		this.key = genKey(getPlain().length());
+		StringBuffer sb = new StringBuffer();
+		for(int i = 0; i < this.plainBit.length(); i++){
+			int p = this.plainBit.charAt(i) == '1'?1:0;
+			int k = this.key.charAt(i) == '1'?1:0;
+			sb.append(p ^ k);
+		}
+		this.cipher = sb.toString();
+	}
+	char bitToChr(String bit){
+	  System.out.println(bit);
+    System.out.println((char)Integer.parseInt(bit,2) + " ");
+	  return (char)Integer.parseInt(bit,2);
+	}
+	String bitKeStr(){
+	  StringBuffer sb = new StringBuffer();
+	  StringBuffer tmp = new StringBuffer();
+	  for(int i = 0; i < this.cipher.length(); i++){
+	    tmp.append(this.cipher.charAt(i));
+	    if(tmp.length() == 8){
+	      sb.append(bitToChr(tmp.toString()));
+	      tmp = new StringBuffer();
+	  }
+	  return sb.toString();
+	}
+	void decry(String key){
+		this.key = key;
+		StringBuffer sb = new StringBuffer();
+		for(int i = 0; i < this.plainBit.length(); i++){
+			sb.append(this.plainBit.charAt(i) ^ this.key.charAt(i));
+		}
+		this.cipher = sb.toString();
+		this.plain = bitKeStr();
+} 
